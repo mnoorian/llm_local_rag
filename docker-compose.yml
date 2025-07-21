@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  backend:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    volumes:
+      - ./mistral-7b-instruct-v0.2.Q2_K.gguf:/app/mistral-7b-instruct-v0.2.Q2_K.gguf
+    environment:
+      - MISTRAL_MODEL_PATH=/app/mistral-7b-instruct-v0.2.Q2_K.gguf
+    ports:
+      - "8000:8000"
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://backend:8000/generate
+    ports:
+      - "8501:8501" 
