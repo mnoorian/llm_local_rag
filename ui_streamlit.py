@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import os
 
-st.title("ASK LLM (Conversational & Pure)")
+st.title("ASK LLM!")
 
 # Service selection with clear label
 endpoint_options = {
