@@ -1,0 +1,33 @@
+# Mistral 7B Instruct v0.2 Local LLM API & UI
+
+## 🚀 Quick Start with Docker Compose
+
+1. **Download the model file**
+   - Download `mistral-7b-instruct-v0.2.Q2_K.gguf` from [TheBloke's HuggingFace page](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF).
+   - Place it in your project directory: `llm_local_rag/`.
+2. **Build the Docker images**
+   ```bash
+   docker-compose build
+   ```
+3. **Start the services**
+   ```bash
+   docker-compose up
+   ```
+4. **Access the app**
+   - Streamlit UI: [http://localhost:8501](http://localhost:8501)
+   - FastAPI backend: [http://localhost:8000/generate](http://localhost:8000/generate)
+
+---
+
+This project runs the Mistral 7B Instruct v0.2 model locally (CPU-only) using llama.cpp (via llama-cpp-python), exposes a FastAPI server with a `/generate` endpoint, and provides a simple Streamlit UI for interaction.
+
+## Requirements
+- Python 3.8+ (for local runs)
+- Docker & Docker Compose (for containerized runs)
+- CPU with sufficient RAM (at least 8GB recommended)
+
+## Setup
+
+### 1. Download the Quantized GGUF Model (4-bit)
+- Get the file `mistral-7b-instruct-v0.2.Q2_K.gguf` from [TheBloke's HuggingFace page](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF) or another trusted source.
+- Place it in the project directory (`llm_local_rag/`). 

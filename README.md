@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# llm_local_rag
-=======
 # Mistral 7B Instruct v0.2 Local LLM API & UI
 
 ## 🚀 Quick Start with Docker Compose
@@ -169,4 +166,3 @@ llm = Llama(model_path="mistral-7b-instruct-v0.2.Q4_K_M.gguf", n_ctx=2048, n_thr
 - Try running your FastAPI server again:
   ```bash
   uvicorn main 
->>>>>>> e937a46 (Initial commit: FastAPI LLM backend, Streamlit UI, Docker setup)

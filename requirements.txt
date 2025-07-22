@@ -2,3 +2,8 @@ llama-cpp-python
 fastapi
 uvicorn 
 streamlit 
+langchain
+langchain-community
+faiss-cpu
+sentence-transformers
+transformers 
