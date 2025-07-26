@@ -1,0 +1,124 @@
+# Financial Regulatory Framework Documents
+
+## Basel III Framework
+
+### Capital Requirements
+Basel III introduces more stringent capital requirements for banks:
+- Common Equity Tier 1 (CET1) capital ratio: minimum 4.5%
+- Tier 1 capital ratio: minimum 6%
+- Total capital ratio: minimum 8%
+- Capital conservation buffer: 2.5%
+- Countercyclical capital buffer: 0-2.5%
+
+### Risk-Weighted Assets
+Credit risk weights vary by asset type:
+- Sovereign debt: 0-150% depending on credit rating
+- Corporate loans: 20-150% based on internal/external ratings
+- Residential mortgages: 35-100%
+- Commercial real estate: 50-150%
+
+### Liquidity Requirements
+- Liquidity Coverage Ratio (LCR): 100% minimum
+- Net Stable Funding Ratio (NSFR): 100% minimum
+
+## Dodd-Frank Act
+
+### Volcker Rule
+Prohibits banks from:
+- Proprietary trading
+- Owning or sponsoring hedge funds/private equity funds
+- High-risk trading activities
+
+### Systemically Important Financial Institutions (SIFIs)
+Enhanced supervision for:
+- Banks with assets > $50 billion
+- Non-bank financial companies designated by FSOC
+- Additional capital and liquidity requirements
+
+### Derivatives Regulation
+- Central clearing for standardized derivatives
+- Trading on exchanges or swap execution facilities
+- Higher capital requirements for uncleared swaps
+
+## Solvency II Directive
+
+### Pillar 1: Quantitative Requirements
+- Solvency Capital Requirement (SCR): 99.5% VaR over 1 year
+- Minimum Capital Requirement (MCR): absolute minimum
+- Risk-based capital calculation using standard or internal models
+
+### Pillar 2: Qualitative Requirements
+- Own Risk and Solvency Assessment (ORSA)
+- Risk management framework
+- Governance requirements
+- Internal control mechanisms
+
+### Pillar 3: Reporting and Disclosure
+- Regular reporting to supervisors
+- Public disclosure of risk and capital information
+- Transparency requirements
+
+## Market Risk Management
+
+### Value at Risk (VaR)
+- Historical simulation method
+- Parametric method (normal distribution assumption)
+- Monte Carlo simulation
+- Backtesting requirements
+
+### Stress Testing
+- Scenario analysis
+- Sensitivity testing
+- Reverse stress testing
+- Regular stress test exercises
+
+### Interest Rate Risk
+- Duration gap analysis
+- Earnings at risk
+- Economic value of equity
+- Interest rate sensitivity
+
+## Operational Risk
+
+### Risk Categories
+- Internal fraud
+- External fraud
+- Employment practices
+- Clients, products, and business practices
+- Damage to physical assets
+- Business disruption and system failures
+- Execution, delivery, and process management
+
+### Capital Calculation
+- Basic indicator approach: 15% of average gross income
+- Standardized approach: risk-weighted by business line
+- Advanced measurement approach: internal models
+
+## Credit Risk Management
+
+### Credit Assessment
+- Credit scoring models
+- Rating systems
+- Probability of default (PD)
+- Loss given default (LGD)
+- Exposure at default (EAD)
+
+### Portfolio Management
+- Concentration limits
+- Diversification requirements
+- Credit risk mitigation techniques
+- Collateral management
+
+## Liquidity Risk
+
+### Liquidity Risk Metrics
+- Liquidity coverage ratio
+- Net stable funding ratio
+- Maturity ladder analysis
+- Funding concentration
+
+### Contingency Funding Plan
+- Stress scenarios
+- Funding sources
+- Action plans
+- Regular testing and updates 

@@ -6,4 +6,11 @@ langchain
 langchain-community
 faiss-cpu
 sentence-transformers
-transformers 
+transformers
+requests
+beautifulsoup4
+python-multipart
+pydantic
+weaviate-client
+PyPDF2
+python-docx 

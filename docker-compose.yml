@@ -1,5 +1,26 @@
 version: "3.8"
 services:
+  weaviate:
+    image: semitechnologies/weaviate:1.22.4
+    ports:
+      - "8080:8080"
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      DEFAULT_VECTORIZER_MODULE: 'none'
+      ENABLE_MODULES: 'text2vec-transformers'
+      TRANSFORMERS_INFERENCE_API: 'http://t2v-transformers:8080'
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    restart: unless-stopped
+
+  t2v-transformers:
+    image: semitechnologies/transformers-inference:sentence-transformers-all-MiniLM-L6-v2
+    environment:
+      ENABLE_CUDA: '0'
+    restart: unless-stopped
+
   backend:
     platform: linux/amd64
     build:
@@ -7,10 +28,16 @@ services:
       dockerfile: Dockerfile.backend
     volumes:
       - ./mistral-7b-instruct-v0.2.Q2_K.gguf:/app/mistral-7b-instruct-v0.2.Q2_K.gguf
+      - ./documents:/app/documents
     environment:
       - MISTRAL_MODEL_PATH=/app/mistral-7b-instruct-v0.2.Q2_K.gguf
+      - WEAVIATE_URL=http://weaviate:8080
+      - EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
     ports:
       - "8000:8000"
+    depends_on:
+      - weaviate
+    restart: unless-stopped
 
   ui:
     build:
@@ -19,6 +46,12 @@ services:
     depends_on:
       - backend
     environment:
-      - API_URL=http://backend:8000/generate
+      - API_URL_AGENTIC=http://backend:8000/agentic_query
+      - API_URL_RAG=http://backend:8000/rag_query
+      - API_URL_LLM=http://backend:8000/generate
     ports:
-      - "8501:8501" 
+      - "8501:8501"
+    restart: unless-stopped
+
+volumes:
+  weaviate_data: 

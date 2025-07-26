@@ -1,168 +1,241 @@
-# Mistral 7B Instruct v0.2 Local LLM API & UI
+# Agentic RAG for Financial Risk Analysis
 
-## 🚀 Quick Start with Docker Compose
+## 🚀 Overview
 
-1. **Download the model file**
-   - Download `mistral-7b-instruct-v0.2.Q2_K.gguf` from [TheBloke's HuggingFace page](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF).
-   - Place it in your project directory: `llm_local_rag/`.
-2. **Build the Docker images**
-   ```bash
-   docker-compose build
-   ```
-3. **Start the services**
-   ```bash
-   docker-compose up
-   ```
-4. **Access the app**
-   - Streamlit UI: [http://localhost:8501](http://localhost:8501)
-   - FastAPI backend: [http://localhost:8000/generate](http://localhost:8000/generate)
+This is a Proof of Concept (PoC) for an **Agentic Retrieval-Augmented Generation (RAG) system** designed specifically for financial risk analysts. The system combines local LLM capabilities with Weaviate vector database, document retrieval, web search simulation, and multi-step reasoning to provide comprehensive answers to complex financial risk queries.
 
----
+## 🎯 Key Features
 
-This project runs the Mistral 7B Instruct v0.2 model locally (CPU-only) using llama.cpp (via llama-cpp-python), exposes a FastAPI server with a `/generate` endpoint, and provides a simple Streamlit UI for interaction.
+### 🤖 Agentic Capabilities
+- **Multi-step Reasoning**: Generates step-by-step reasoning chains for complex queries
+- **Multi-tool Integration**: Combines document search, web search, and LLM reasoning
+- **Citation Tracking**: Provides source citations with relevance scores
+- **Confidence Scoring**: Estimates confidence levels for responses
+- **Session Memory**: Maintains conversation context using LangChain's ConversationBufferMemory
 
-## Requirements
-- Python 3.8+ (for local runs)
-- Docker & Docker Compose (for containerized runs)
-- CPU with sufficient RAM (at least 8GB recommended)
+### 📚 Knowledge Sources
+- **Weaviate Vector Database**: Scalable vector storage for document embeddings
+- **Regulatory Documents**: Basel III, Dodd-Frank, Solvency II frameworks
+- **Document Upload**: Support for PDF and TXT files
+- **Web Search**: Simulated web search for current information
+- **Conversational Memory**: Context-aware responses based on conversation history
 
-## Setup
+### 🛠️ Technical Features
+- **Local LLM**: Runs Mistral 7B Instruct v0.2 locally using llama.cpp
+- **Vector Database**: Weaviate with sentence-transformers embeddings
+- **FastAPI Backend**: RESTful API with multiple endpoints
+- **Streamlit UI**: Modern, interactive web interface with document upload
+- **Docker Support**: Containerized deployment with Weaviate
+- **Session Management**: Persistent conversation sessions using LangChain
 
-### 1. Download the Quantized GGUF Model (4-bit)
-- Get the file `mistral-7b-instruct-v0.2.Q2_K.gguf` from [TheBloke's HuggingFace page](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF) or another trusted source.
-- Place it in the project directory (`llm_local_rag/`).
+## 🏗️ Architecture
 
-## Running with Docker Compose (Recommended)
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Streamlit UI  │    │   FastAPI       │    │   Local LLM     │
+│                 │◄──►│   Backend       │◄──►│   (Mistral 7B)  │
+│ - Query Input   │    │                 │    │                 │
+│ - Results Display│   │ - Agentic RAG   │    │ - Text Generation│
+│ - Document Upload│   │ - Document Search│   │ - Reasoning     │
+└─────────────────┘    │ - Web Search    │    └─────────────────┘
+                       │ - Session Mgmt  │
+                       └─────────────────┘
+                                │
+                       ┌─────────────────┐
+                       │   Weaviate      │
+                       │   Vector DB     │
+                       │                 │
+                       │ - Document      │
+                       │   Embeddings    │
+                       │ - Similarity    │
+                       │   Search        │
+                       └─────────────────┘
+```
 
-1. **Build the images** (model file not required for this step):
-   ```bash
-   docker-compose build
-   ```
-2. **Ensure the model file is present** in your project directory:
-   - `llm_local_rag/mistral-7b-instruct-v0.2.Q2_K.gguf`
-3. **Start the services:**
-   ```bash
-   docker-compose up
-   ```
-   - The backend will mount the model file at runtime.
-4. **Access the application:**
-   - Streamlit UI: [http://localhost:8501](http://localhost:8501)
-   - FastAPI backend: [http://localhost:8000/generate](http://localhost:8000/generate)
+## 🚀 Quick Start
 
----
+### Prerequisites
+- Python 3.8+
+- Docker & Docker Compose
+- At least 8GB RAM (16GB recommended)
+- Mistral 7B model file
 
-## Running Locally (Without Docker)
+### 1. Download the Model
+```bash
+# Download Mistral 7B Instruct v0.2 GGUF model
+wget https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF/resolve/main/mistral-7b-instruct-v0.2.Q4_K_M.gguf
+```
 
-1. **Install Python dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. **Start the FastAPI backend:**
-   ```bash
-   uvicorn main:app --host 0.0.0.0 --port 8000
-   ```
-3. **Start the Streamlit UI (in a new terminal):**
-   ```bash
-   streamlit run ui_streamlit.py
-   ```
+### 2. Setup with Docker
+```bash
+# Build and start services
+docker-compose up --build
 
----
+# Access the application
+# UI: http://localhost:8501
+# API: http://localhost:8000
+# Weaviate: http://localhost:8080
+```
 
-## Usage
-- Open the Streamlit UI in your browser: [http://localhost:8501](http://localhost:8501)
-- Type your question and click "Ask". The UI will call the FastAPI backend and display the answer.
+### 3. Local Development
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-### API Usage (Direct)
-Send a POST request to `/generate` with a JSON body:
-```json
+# Start Weaviate (in separate terminal)
+docker run -d -p 8080:8080 --name weaviate semitechnologies/weaviate:1.22.4
+
+# Start backend
+uvicorn main:app --host 0.0.0.0 --port 8000
+
+# Start UI (new terminal)
+streamlit run ui_streamlit.py
+```
+
+## 📖 Usage
+
+### 1. Agentic RAG Mode (Recommended)
+- **Multi-tool Analysis**: Combines document search, web search, and reasoning
+- **Step-by-step Reasoning**: Shows the logical process behind answers
+- **Citations**: Provides source references with relevance scores
+- **Confidence Scoring**: Indicates reliability of responses
+- **Document Upload**: Add custom financial documents
+
+### 2. Conversational RAG Mode
+- **Memory**: Maintains conversation context using LangChain
+- **Document Search**: Searches regulatory documents in Weaviate
+- **Context-Aware**: Builds on previous exchanges
+
+### 3. Pure LLM Mode
+- **Stateless**: Single-turn responses
+- **Fast**: Direct LLM interaction
+- **Simple**: Basic question-answering
+
+## 🔍 Example Queries
+
+### Regulatory Compliance
+```
+"What are the capital requirements under Basel III for credit risk?"
+"How does Dodd-Frank affect proprietary trading?"
+"What are the liquidity requirements under Solvency II?"
+```
+
+### Risk Assessment
+```
+"How should I assess counterparty credit risk in derivatives trading?"
+"What are the key risk indicators for operational risk?"
+"How do I calculate Value at Risk (VaR) for a portfolio?"
+```
+
+### Market Analysis
+```
+"What are the current trends in interest rate risk management?"
+"How do I evaluate market risk in emerging markets?"
+"What are the best practices for stress testing?"
+```
+
+## 🛠️ API Endpoints
+
+### Agentic RAG
+```http
+POST /agentic_query
 {
-  "prompt": "What is the capital of France?",
-  "max_tokens": 128,
-  "temperature": 0.7
+  "query": "What are Basel III capital requirements?",
+  "use_web_search": true,
+  "use_document_search": true,
+  "reasoning_steps": 3
 }
 ```
-Response:
-```json
+
+### Conversational RAG
+```http
+POST /rag_query
 {
-  "response": "The capital of France is Paris."
+  "query": "Explain credit risk assessment",
+  "session_id": "uuid"
 }
 ```
-- `max_tokens` and `temperature` are optional.
 
-## Notes
-- For best performance, use a quantized 4-bit GGUF model.
-- Adjust `MISTRAL_MODEL_PATH` if your model file is elsewhere.
-- The model runs entirely on CPU.
-
----
-
-**Enjoy running your own local LLM with a simple web UI!** 
-
-Your error means the FastAPI backend (LLM API) is not running or crashed, so the Streamlit UI cannot connect to it.
-
-From your previous logs, the FastAPI server crashed with a segmentation fault (`zsh: segmentation fault  uvicorn main:app --host 0.0.0.0 --port 8000`). This is likely due to one of these reasons:
-- The model file is too large for your available RAM.
-- There is a bug or incompatibility in the llama-cpp-python or GGUF file.
-- The quantization or model file is corrupted or not supported.
-
-**How to troubleshoot:**
-
-1. **Check RAM usage:**  
-   Make sure you have enough free RAM (8GB+ recommended for 7B models, more for larger quantizations).
-
-2. **Try a smaller quantized model:**  
-   If you have a Q4 or Q5 model, try Q4_K_M or Q4_0 quantization, which uses less RAM.
-
-3. **Update llama-cpp-python:**  
-   Make sure you have the latest version:
-   ```bash
-   pip install --upgrade llama-cpp-python
-   ```
-
-4. **Test model loading in Python shell:**  
-   Try this in a Python shell to see if the model loads without FastAPI:
-   ```python
-   from llama_cpp import Llama
-   llm = Llama(model_path="mistral-7b-instruct-v0.2.Q4_K_M.gguf", n_ctx=2048, n_threads=4, n_gpu_layers=0)
-   ```
-   If this crashes, the issue is with the model or llama-cpp-python.
-
-5. **Check model file:**  
-   Make sure your GGUF file is not corrupted and is the correct quantization for your hardware.
-
----
-
-Would you like to try loading the model in a Python shell to see if it works, or do you want to try updating llama-cpp-python first? Let me know how you want to proceed! 
-
----
-
-### 1. **Test Model Loading in Python Shell**
-
-This will help determine if the problem is with the model file or the FastAPI integration.
-
-Open a Python shell in your project directory and run:
-```python
-from llama_cpp import Llama
-llm = Llama(model_path="mistral-7b-instruct-v0.2.Q4_K_M.gguf", n_ctx=2048, n_threads=4, n_gpu_layers=0)
+### Basic LLM
+```http
+POST /generate
+{
+  "prompt": "What is financial risk?",
+  "max_tokens": 256
+}
 ```
-- If this **crashes** or gives a segmentation fault, the issue is with the model file or llama-cpp-python.
-- If it **loads successfully**, the problem may be with how FastAPI is using it.
+
+### Document Upload
+```http
+POST /upload_document
+Content-Type: multipart/form-data
+file: [PDF or TXT file]
+```
+
+## ⚙️ Configuration
+
+### Environment Variables
+```bash
+MISTRAL_MODEL_PATH=./mistral-7b-instruct-v0.2.Q4_K_M.gguf
+WEAVIATE_URL=http://weaviate:8080
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+```
+
+### Model Parameters
+- **Context Length**: 4096 tokens
+- **Threads**: Auto-detected CPU cores
+- **GPU Layers**: 0 (CPU-only)
+- **Temperature**: 0.1-1.0 (configurable)
+- **Max Tokens**: 256-1024 (configurable)
+
+## 📊 Performance Considerations
+
+### Memory Usage
+- **Model Loading**: ~4GB RAM for Q4_K_M quantization
+- **Session Storage**: In-memory (consider Redis for production)
+- **Document Indexing**: Weaviate vector store
+
+### Response Time
+- **Agentic Mode**: 10-30 seconds (multi-step processing)
+- **RAG Mode**: 5-15 seconds (document search + generation)
+- **LLM Mode**: 2-8 seconds (direct generation)
+
+## 🔮 Future Enhancements
+
+### Planned Features
+- **Real Web Search**: Integration with search APIs
+- **Advanced Reasoning**: Chain-of-thought and tree-of-thought
+- **Multi-modal**: Support for charts and tables
+- **Export Capabilities**: PDF reports and citations
+
+### Production Considerations
+- **Database**: PostgreSQL for session storage
+- **Caching**: Redis for document embeddings
+- **Authentication**: User management and access control
+- **Monitoring**: Logging and performance metrics
+- **Scaling**: Load balancing and horizontal scaling
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- **Mistral AI**: For the base model
+- **llama.cpp**: For efficient local inference
+- **LangChain**: For RAG framework
+- **Weaviate**: For vector database
+- **FastAPI**: For the backend framework
+- **Streamlit**: For the web interface
 
 ---
 
-### 2. **If It Crashes:**
-
-- **Try a smaller quantized model** (e.g., Q4_K_M or Q4_0).
-- **Update llama-cpp-python** to the latest version:
-  ```bash
-  pip install --upgrade llama-cpp-python
-  ```
-- **Check your RAM usage**: Make sure you have enough free memory.
-
----
-
-### 3. **If It Loads Successfully:**
-
-- Try running your FastAPI server again:
-  ```bash
-  uvicorn main 
+**Note**: This is a Proof of Concept. For production use, implement proper security, authentication, and monitoring measures. 
